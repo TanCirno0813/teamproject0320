@@ -2,6 +2,7 @@ package edu.du.team_project.service;
 
 import edu.du.team_project.mapper.UserMapper;
 import edu.du.team_project.model.User;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,8 @@ public class UserService {
         }
         userMapper.insertUser(user);
         return true;
+    }
+    public User login(String email, String password) {
+        return userMapper.findByEmailAndPassword(email, password);
     }
 }

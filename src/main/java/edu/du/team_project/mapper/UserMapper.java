@@ -19,4 +19,7 @@ public interface UserMapper {
 
     @Select("SELECT COUNT(*) FROM users WHERE email = #{email}")
     boolean existsByEmail(String email);
+
+    @Select("SELECT * FROM users WHERE email = #{email} AND password = #{password}")
+    User findByEmailAndPassword(String email, String password);
 }

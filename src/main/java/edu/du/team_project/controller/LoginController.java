@@ -1,5 +1,9 @@
 package edu.du.team_project.controller;
 
+import edu.du.team_project.model.User;
+import edu.du.team_project.service.UserService;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,41 +12,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(produces = "text/html;charset=UTF-8")
 public class LoginController {
 
+    private final UserService userService;
+
+
+
+    // 로그인 페이지 (GET)
     @GetMapping("/login")
-    public String loginForm() {
-
-        return "login";
+    public String showLoginForm() {
+        return "login"; // login.jsp 로 이동
     }
 
+    // 로그인 처리 (POST)
     @PostMapping("/login")
-    public String login(@RequestParam String username,
-                       @RequestParam String password,
-                       @RequestParam(defaultValue = "/") String redirectURL,
-                       HttpServletRequest request,
-                       Model model) {
-        log.info("로그인 시도: {}", username);
+    public String login(@RequestParam("email") String email,
+                        @RequestParam("password") String password,
+                        HttpSession session, Model model) {
 
+        User user = userService.login(email, password);
 
-
-        model.addAttribute("error", "아이디 또는 비밀번호가 일치하지 않습니다.");
-        model.addAttribute("redirectURL", redirectURL);
-        return "login";
+        if (user != null) {
+            session.setAttribute("loggedInUser", user);
+            return "redirect:/"; // 로그인 성공 시 index 페이지로 이동
+        } else {
+            model.addAttribute("error", "이메일 또는 비밀번호가 잘못되었습니다.");
+            return "login"; // 로그인 실패 시 다시 로그인 페이지로 이동
+        }
     }
 
+    // 로그아웃 처리
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return "redirect:/";
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 삭제 (로그아웃)
+        return "redirect:/"; // 로그아웃 후 메인 페이지로 이동
     }
 }

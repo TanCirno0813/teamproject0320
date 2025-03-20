@@ -40,35 +40,26 @@
     <div class="card">
         <div class="card-body">
             <div class="post-title">
-                ${post.title}
+                ${notice.title}
             </div>
             <div class="post-info">
-                <span>작성자: ${post.author}</span>
-                <span>작성일: <fmt:formatDate value="${post.createdAt}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+                <span>작성자: ${notice.author}</span>
+                <span>작성일: <fmt:formatDate value="${notice.createdAt}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></span>
             </div>
             <div class="post-content">
-                ${post.content}
+                ${notice.content}
             </div>
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-between">
-                <a href="/posts" class="btn btn-secondary">목록으로</a>
-                <c:choose>
-                    <c:when test="${sessionScope.loggedInUser.name eq post.author}">
-                        <div>
-                            <a href="/posts/edit/${post.id}" class="btn btn-primary">수정</a>
-                            <form action="/posts/delete" method="post" style="display: inline;">
-                                <input type="hidden" name="id" value="${post.id}">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-                            </form>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div>
-
-                        </div>
-                    </c:otherwise>
-                </c:choose>
+                <a href="/notice" class="btn btn-secondary">목록으로</a>
+                <div>
+                    <a href="/notice/edit/${notice.id}" class="btn btn-primary">수정</a>
+                    <form action="/notice/delete" method="post" style="display: inline;">
+                        <input type="hidden" name="id" value="${notice.id}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

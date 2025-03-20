@@ -6,18 +6,9 @@
 
 <div class="container mt-5">
     <h2 class="mb-4">게시판</h2>
-    <c:choose>
-        <c:when test="${empty sessionScope.loggedInUser}">
-            <div class="text-end mb-3">
-
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="text-end mb-3">
-                <a href="/posts/write" class="btn btn-primary">글쓰기</a>
-            </div>
-        </c:otherwise>
-    </c:choose>
+    <div class="text-end mb-3">
+        <a href="/notice/write" class="btn btn-primary">글쓰기</a>
+    </div>
     <div class="card">
         <div class="card-body">
             <table class="table table-hover">
@@ -30,12 +21,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${posts}" var="post">
+                <c:forEach items="${notice}" var="notice">
                     <tr>
-                        <td>${post.id}</td>
-                        <td><a href="/posts/${post.id}" class="text-decoration-none">${post.title}</a></td>
-                        <td>${post.author}</td>
-                        <td><fmt:formatDate value="${post.createdAt}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                        <td>${notice.id}</td>
+                        <td><a href="/notice/${notice.id}" class="text-decoration-none">${notice.title}</a></td>
+                        <td>${notice.author}</td>
+                        <td><fmt:formatDate value="${notice.createdAt}" type="both" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>

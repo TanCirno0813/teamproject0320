@@ -59,7 +59,8 @@
 
         .signup-btn {
             background-color: var(--primary-color);
-            color: white !important;
+
+            color: white;
             border-radius: 6px;
             transition: all 0.3s ease;
         }
@@ -86,33 +87,7 @@
             font-weight: 500;
         }
         
-        .download-section {
-            background: #1a1a1a;
-            padding: 4rem 0;
-            color: white;
-        }
-        
-        .footer {
-            background: #0a0a0a;
-            color: #666;
-            padding: 3rem 0;
-        }
-        
-        .social-media {
-            background: #1a1a1a;
-            padding: 2rem 0;
-        }
-        
-        .social-media-icon {
-            font-size: 2rem;
-            color: white;
-            margin: 0 1rem;
-            transition: color 0.3s;
-        }
-        
-        .social-media-icon:hover {
-            color: #007bff;
-        }
+
 
         .main-content {
             padding-top: 76px; /* 네비게이션 바 높이만큼 여백 추가 */
@@ -133,25 +108,34 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" href="/characters">공지사항</a></li>
+                <li class="nav-item"><a class="nav-link" href="/notice">공지사항</a></li>
                 <li class="nav-item"><a class="nav-link" href="/posts">게시판</a></li>
             </ul>
             <ul class="navbar-nav ms-auto auth-buttons">
                 <c:choose>
-                    <c:when test="${empty sessionScope.loginMember}">
+                    <c:when test="${not empty sessionScope.loggedInUser}">
                         <li class="nav-item">
-                            <a class="nav-link login-btn" href="/login">로그인</a>
+                            <span class="nav-link user-welcome">
+                                <i class="fas fa-user-circle me-1"></i>
+                                ${sessionScope.loggedInUser.name}님 환영합니다
+                            </span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link signup-btn" href="/register">회원가입</a>
+                            <a class="nav-link login-btn" href="${pageContext.request.contextPath}/logout">
+                                <i class="fas fa-sign-out-alt me-1"></i>로그아웃
+                            </a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li class="nav-item">
-                            <span class="nav-link user-welcome">${sessionScope.loginMember}님 환영합니다</span>
+                            <a class="nav-link login-btn" href="${pageContext.request.contextPath}/login">
+                                <i class="fas fa-sign-in-alt me-1"></i>로그인
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link login-btn" href="/logout">로그아웃</a>
+                            <a class="nav-link signup-btn" href="${pageContext.request.contextPath}/register">
+                                <i class="fas fa-user-plus me-1"></i>회원가입
+                            </a>
                         </li>
                     </c:otherwise>
                 </c:choose>
