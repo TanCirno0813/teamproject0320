@@ -54,7 +54,7 @@
     <div class="card-footer">
       <div class="d-flex justify-content-between">
         <a th:href="@{/notice}" class="btn btn-secondary">목록으로</a>
-        <div>
+        <div th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
           <a th:href="@{/notice/edit/{id}(id=${notice.id})}" class="btn btn-primary">수정</a>
           <form th:action="@{/notice/delete}" method="post" style="display: inline;">
             <input type="hidden" name="id" th:value="${notice.id}">

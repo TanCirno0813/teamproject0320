@@ -37,4 +37,14 @@ public class NoticeService {
     public void deleteNotice(int id) {
         noticeMapper.deleteNotice(id);
     }
+    // NoticeService.java
+    public List<Notice> getNoticesByPage(int page, int size) {
+        int start = page * size;
+        int end = Math.min(start + size, noticeMapper.getAllNotices().size());
+        return noticeMapper.getAllNotices().subList(start, end);
+    }
+
+    public int getTotalNoticeCount() {
+        return noticeMapper.getAllNotices().size();
+    }
 }

@@ -7,7 +7,7 @@
 <div class="container mt-5">
   <h2 class="mb-4">게시판</h2>
 
-  <div class="text-end mb-3">
+  <div class="text-end mb-3" th:if="${session.loggedInUser != null and session.loggedInUser.role == 'ADMIN'}">
     <a th:href="@{/notice/write}" class="btn btn-primary">글쓰기</a>
   </div>
 
@@ -36,6 +36,26 @@
       </table>
     </div>
   </div>
+</div>
+<!-- 페이징 바 -->
+<div class="mt-4 d-flex justify-content-center">
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+        <a class="page-link" th:href="@{/notice(page=${currentPage - 1})}">이전</a>
+      </li>
+
+      <li class="page-item"
+          th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+          th:classappend="${pageNum == currentPage} ? 'active'">
+        <a class="page-link" th:href="@{/notice(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+      </li>
+
+      <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/notice(page=${currentPage + 1})}">다음</a>
+      </li>
+    </ul>
+  </nav>
 </div>
 
 <div th:replace="~{common/footer :: footer}"></div>

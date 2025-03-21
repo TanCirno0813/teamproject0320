@@ -36,4 +36,14 @@ public class PostService {
     public void deletePost(int id) {
         postRepository.deletePost(id);
     }
+
+    public List<Post> getPostsByPage(int page, int size) {
+        int start = page * size;
+        int end = Math.min(start + size, postRepository.getAllPosts().size());
+        return postRepository.getAllPosts().subList(start, end);
+    }
+
+    public int getTotalPostCount() {
+        return postRepository.getAllPosts().size();
+    }
 }

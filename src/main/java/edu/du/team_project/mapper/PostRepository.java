@@ -23,4 +23,9 @@ public interface PostRepository {
 
     @Delete("DELETE FROM posts WHERE id=#{id}")
     void deletePost(int id);
+
+
+    //업데이트
+    @Update("UPDATE posts SET author = '탈퇴한 사용자' WHERE author = #{authorName}")
+    void anonymizeAuthor(String authorName);
 }

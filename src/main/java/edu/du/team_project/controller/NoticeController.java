@@ -3,12 +3,13 @@ package edu.du.team_project.controller;
 import edu.du.team_project.model.Notice;
 
 
-import edu.du.team_project.model.Post;
 import edu.du.team_project.service.NoticeService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/notice")
@@ -21,10 +22,21 @@ public class NoticeController {
 
     //게시판 목록 페이지
     @GetMapping
-    public String listnotice(Model model) {
-        model.addAttribute("notice", noticeService.getAllNotices());
+    public String listNotice(@RequestParam(defaultValue = "0") int page,
+                             Model model) {
+        int pageSize = 3;
+
+        List<Notice> pagedNotices = noticeService.getNoticesByPage(page, pageSize);
+        int totalNotices = noticeService.getTotalNoticeCount();
+        int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
+
+        model.addAttribute("notice", pagedNotices);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
         return "notice";
     }
+
 
     // 글 상세보기
     @GetMapping("/{id}")

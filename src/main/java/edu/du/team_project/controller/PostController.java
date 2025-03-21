@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Controller
@@ -21,8 +22,17 @@ public class PostController {
 
     //게시판 목록 페이지
     @GetMapping
-    public String listPosts(Model model) {
-        model.addAttribute("posts", postService.getAllPosts());
+    public String listPosts(@RequestParam(defaultValue = "0") int page,
+                            Model model) {
+        int pageSize = 3;
+
+        List<Post> pagedPosts = postService.getPostsByPage(page, pageSize);
+        int totalPosts = postService.getTotalPostCount();
+        int totalPages = (int) Math.ceil((double) totalPosts / pageSize);
+
+        model.addAttribute("posts", pagedPosts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         return "posts";
     }
 
@@ -89,4 +99,6 @@ public class PostController {
         postService.deletePost(id);
         return "redirect:/posts";
     }
+
+
 }
